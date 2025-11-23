@@ -1,435 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Portfolio</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #1e1e2f;
-            color: #ffffff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>This is my Porfolio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(180deg, #0a0f18, #0f233c);
+      color: white;
+      overflow-x: hidden;
+    }
 
-        h3, p {
-            margin: 0;
-        }
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background-color: rgba(0, 0, 0, 0.4);
+      color: #6fe2ff;
+      font-size: 2rem;
+      letter-spacing: 2px;
+    }
 
-        /* Portfolio Grid */
-        .portfolio {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
 
-        /* Project Card */
-        .project {
-            background: linear-gradient(145deg, #2a2a3b, #1c1c2b);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .tab {
+      background-color: #101f30;
+      border: 2px solid #5dc4ff;
+      color: #5dc4ff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-        .project:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
-        }
+    .tab:hover {
+      background-color: #5dc4ff;
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #5dc4ff;
+    }
 
-        .project-info {
-            padding: 20px;
-            text-align: center;
-        }
+    .content {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      animation: fadeIn 0.5s ease;
+    }
 
-        .project-info h3 {
-            font-size: 1.5rem;
-            color: #ff6f61;
-        }
+    .content.active {
+      display: block;
+    }
 
-        .project-info p {
-            font-size: 1rem;
-            color: #d1d1d1;
-            margin: 10px 0;
-        }
+    .info-box {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: 1px solid #5dc4ff;
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin: 1rem auto;
+      max-width: 600px;
+      box-shadow: 0 0 20px rgba(95, 208, 255, 0.4);
+      backdrop-filter: blur(8px);
+    }
 
-        .project-info button {
-            background-color: #ff6f61;
-            border: none;
-            color: white;
-            padding: 10px 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 25px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+    /* Slider */
+    .slider {
+      position: relative;
+      overflow: hidden;
+      max-width: 600px;
+      margin: 2rem auto;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(95, 208, 255, 0.4);
+    }
 
-        .project-info button:hover {
-            background-color: #ff8a75;
-            transform: scale(1.05);
-        }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
 
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
+    .slide {
+      min-width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #5dc4ff;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
 
-        .modal-content {
-            background-color: #2a2a3b;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 15px;
-            width: 80%;
-            max-width: 600px;
-            color: #ffffff;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
+    .controls {
+      margin-top: 1rem;
+    }
 
-        .modal-content img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+    .motion-btn {
+      background-color: #5dc4ff;
+      color: #000;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
 
-        .close {
-            color: #ff6f61;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    .motion-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #5dc4ff;
+    }
 
-        .close:hover {
-            color: #ff8a75;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #1c1c2b;
-            color: #d1d1d1;
-            margin-top: 40px;
-        }
-
-        footer a {
-            color: #ff6f61;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            color: #ff8a75;
-        }
-    </style>
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
 </head>
 <body>
-    <div class="portfolio">
-        <!-- Project Card 1 -->
-        <div class="project">
-            <div class="project-info">
-                <h3>What Xander's Favorite Games to play?</h3>
-                <button onclick="openModal(1)">View here</button>
-            </div>
-        </div>
+  <header>Hi this is my Portfolio</header>
 
-        <!-- Project Card 2 -->
-        <div class="project">
-            <div class="project-info">
-                <h3>What Xander likes?</h3>
-                <button onclick="openModal(2)">View here</button>
-            </div>
-        </div>
-    <!-- Modal -->
-    <div id="projectModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <img id="modalImage" src="" alt="Project Image">
-            <h2 id="modalTitle">Project Details</h2>
-            <p id="modalDescription">This is a detailed description of the project.</p>
-        </div>
+  <div class="tabs">
+    <div class="tab" onclick="openTab(0)">HTML</div>
+    <div class="tab" onclick="openTab(1)">CSS</div>
+    <div class="tab" onclick="openTab(2)">Java Script</div>
+  </div>
+
+  <div id="content0" class="content active">
+    <div class="info-box">😸<b>What is HTML?:</b> HTML stands for HyperText Markup Language, and it is the standard language used to create and structure web pages. It uses tags and elements to define different parts of a webpage, such as headings, paragraphs, images, links, and more.</div>
+    <div class="slider">
+      <div class="slides" id="slides0">
+        <div class="slide">Information of HTML : Each HTML document starts with a "<!DOCTYPE html>"  declaration and is made up of two main sections:
+                                                <head> — contains information about the page (like the title, styles, or metadata).
+                                                <body> — contains the visible content shown on the website (like text, images, and buttons).</div>
+        <div class="slide">Information of HTML:HTML works together with:
+                                               CSS (Cascading Style Sheets) — to control design and layout
+                                               JavaScript — to make pages interactive and dynamic</div>
+      </div>
+      <div class="controls">
+        <button class="motion-btn" onclick="prevSlide(0)">◀</button>
+        <button class="motion-btn" onclick="nextSlide(0)">▶</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>Created by <a href="#">Xander LLaban</a>. All rights reserved &copy; 2025.</p>
-    </footer>
+  <div id="content1" class="content">
+    <div class="info-box">😼<b>What is CSS?:</b> CSS is a style language used to control the appearance and layout of web pages. It works together with HTML, which provides the content or structure, while CSS adds design, color, spacing, and animation.</div>
+    <div class="slider">
+      <div class="slides" id="slides1">
+        <div class="slide">Information of CSS: It allows developers to:
+                                              Change text styles, colors, and fonts.
+                                              Arrange elements on the page using layouts like flexbox or grid.
+                                              Make websites responsive (adjustable for phones, tablets, and desktops).
+                                              Add animations, transitions, and effects for a more interactive design.</div>
+        <div class="slide">Information of CSS: The term “Cascading” means that styles are applied in order of importance — browser defaults, external stylesheets, inline styles — and the last rule can override earlier ones.</div>
+      </div>
+      <div class="controls">
+        <button class="motion-btn" onclick="prevSlide(1)">◀</button>
+        <button class="motion-btn" onclick="nextSlide(1)">▶</button>
+      </div>
+    </div>
+  </div>
 
-    <!-- Script 1: Modal Open -->
-    <script>
-        const modal = document.getElementById("projectModal");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalDescription = document.getElementById("modalDescription");
-        const modalImage = document.getElementById("modalImage");
+  <div id="content2" class="content">
+    <div class="info-box">😻<b>What is Java Script?</Script>:</b> JavaScript (JS) is a powerful, high-level programming language mainly used to make websites interactive and dynamic. It allows developers to control webpage behavior — such as animations, button actions, pop-ups, and real-time updates — directly in the browser.</div>
+    <div class="slider">
+      <div class="slides" id="slides2">
+        <div class="slide">Information of Java Script: It was originally created to add logic to HTML and CSS, but now JavaScript can also run on servers using Node.js. It’s one of the core technologies of web development, along with HTML (structure) and CSS (style).</div>
+        <div class="slide">Information of Java Script: Key Features:
+                                                       Client-side scripting – runs directly in the browser without reloading the page.
+                                                       Dynamic content – can change or update webpage elements instantly.
+                                                       Event-driven – responds to user actions like clicks or typing.
+                                                       Cross-platform – works on all modern browsers and operating systems.
+                                                       Versatile – used for web apps, mobile apps, games, and even backend servers.</div>
+         </div>
+      <div class="controls">
+        <button class="motion-btn" onclick="prevSlide(2)">◀</button>
+        <button class="motion-btn" onclick="nextSlide(2)">▶</button>
+      </div>
+    </div>
+  </div>
+    <footer className="text-center py-8 text-gray-500 border-t border-gray-800">
+          <p>Created by <span className="text-cyan-400">Princess Macabngon</span>. All rights reserved &copy; 2025.</p>
+        </footer>
+      </div>
 
-        function openModal(projectId) {
-            modal.style.display = "block";
-            if (projectId === 1) {
-                modalTitle.textContent = "What Xander's Favorite Games to play?";
-                modalDescription.textContent = "I like to play games like Minecraft, Roblox, ML, and Codm.";
-                modalImage.src = "c:/Users/lawre/Videos/Roblox/3d/img script/download (6).jpeg";
-            } else if (projectId === 2) {
-                modalTitle.textContent = "What Xander likes?";
-                modalDescription.textContent = "I like to Eat and Exercise.";
-                modalImage.src = "c:/Users/lawre/Videos/Roblox/3d/img script/download (5).jpeg";
-            } else if (projectId === 3) {
-                modalTitle.textContent = "Who are Xander's Friends?";
-                modalDescription.textContent = "These are friends.";
-                modalImage.src = "c:/Users/lawre/Videos/Roblox/3d/img script/6pwf70.jpg";
-            }
-        }
-    </script>
+  <script>
+    let currentTab = 0;
+    let currentSlides = [0, 0, 0];
 
-    <!-- Script 2: Modal Close -->
-    <script>
-        function closeModal() {
-            modal.style.display = "none";
-        }
-    </script>
+    function openTab(index) {
+      document.querySelectorAll(".content").forEach(c => c.classList.remove("active"));
+      document.getElementById("content" + index).classList.add("active");
+      currentTab = index;
+    }
 
-    <!-- Script 3: Close Modal on Outside Click -->
-    <script>
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
+    function showSlide(tabIndex) {
+      const slides = document.getElementById("slides" + tabIndex);
+      slides.style.transform = `translateX(-${currentSlides[tabIndex] * 100}%)`;
+    }
+
+    function nextSlide(tabIndex) {
+      const total = document.getElementById("slides" + tabIndex).children.length;
+      currentSlides[tabIndex] = (currentSlides[tabIndex] + 1) % total;
+      showSlide(tabIndex);
+    }
+
+    function prevSlide(tabIndex) {
+      const total = document.getElementById("slides" + tabIndex).children.length;
+      currentSlides[tabIndex] = (currentSlides[tabIndex] - 1 + total) % total;
+      showSlide(tabIndex);
+    }
+  </script>
 </body>
-</html>      </div>
-      <div className="p-4 rounded-xl bg-gradient-to-r from-white/5 to-white/3 border border-white/5">
-        <div className="text-sm text-gray-400">Outstanding</div>
-        <div className="text-2xl font-semibold mt-2 text-amber-400">₱{outstanding.toLocaleString()}</div>
-      </div>
-    </div>
-  );
-};
-
-const Sidebar = ({ route, setRoute }) => (
-  <aside className="w-64 bg-gray-900/50 backdrop-blur p-4 rounded-xl h-[calc(100vh-2rem)]">
-    <div className="mb-8 text-center">
-      <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">BizApp</div>
-      <div className="text-xs text-gray-400">Small business management</div>
-    </div>
-
-    <nav className="flex flex-col gap-2">
-      {[
-        { key: "dashboard", label: "Dashboard", icon: "fa fa-tachometer" },
-        { key: "clients", label: "Clients", icon: "fa fa-user-friends" },
-        { key: "invoices", label: "Invoices", icon: "fa fa-file-invoice" },
-        { key: "reports", label: "Reports", icon: "fa fa-chart-line" },
-        { key: "settings", label: "Settings", icon: "fa fa-cog" }
-      ].map(item => (
-        <button
-          key={item.key}
-          onClick={() => setRoute(item.key)}
-          className={`flex items-center gap-3 p-3 rounded-lg text-left w-full transition-colors ${route === item.key ? 'bg-cyan-500/20 border border-cyan-500/30' : 'hover:bg-white/3'}`}
-        >
-          <i className={`${item.icon} w-5 text-gray-300`}></i>
-          <span className={`flex-1 ${route === item.key ? 'font-semibold text-white' : 'text-gray-300'}`}>{item.label}</span>
-        </button>
-      ))}
-    </nav>
-
-    <div className="mt-auto text-sm text-gray-400 pt-4 border-t border-white/5">
-      <div>Signed in as <strong className="text-white">Xander</strong></div>
-      <div className="text-xs mt-2">v1.0 • Local demo</div>
-    </div>
-  </aside>
-);
-
-const DashboardView = ({ clients, invoices }) => {
-  const recentInvoices = [...invoices].slice(0, 5);
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <div className="text-sm text-gray-400">Welcome back — here's a quick look at your business.</div>
-      </div>
-
-      <KPICards clients={clients} invoices={invoices} />
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="p-4 bg-gray-900/40 rounded-xl border border-white/5">
-          <h3 className="font-semibold mb-3">Recent Invoices</h3>
-          <ul className="space-y-2">
-            {recentInvoices.map(inv => (
-              <li key={inv.id} className="flex justify-between items-center p-2 rounded hover:bg-white/2 transition-colors">
-                <div>
-                  <div className="font-medium">Invoice #{inv.id}</div>
-                  <div className="text-xs text-gray-400">Due: {inv.due} • Status: <span className={`px-2 py-0.5 rounded text-xs ${inv.status === 'Paid' ? 'bg-green-700/30' : 'bg-amber-700/30'}`}>{inv.status}</span></div>
-                </div>
-                <div className="font-semibold">₱{inv.amount}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="p-4 bg-gray-900/40 rounded-xl border border-white/5">
-          <h3 className="font-semibold mb-3">Quick Actions</h3>
-          <div className="flex flex-col gap-3">
-            <button className="py-2 rounded bg-cyan-500/80 hover:bg-cyan-600">Create Invoice</button>
-            <button className="py-2 rounded bg-purple-600/80 hover:bg-purple-700">Add Client</button>
-            <button className="py-2 rounded bg-white/5">Generate Report</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ClientsView = ({ clients, onAddClient }) => {
-  const [query, setQuery] = useState("");
-  const filtered = clients.filter(c => c.name.toLowerCase().includes(query.toLowerCase()));
-
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Clients</h1>
-        <div className="flex gap-2">
-          <input value={query} onChange={e => setQuery(e.target.value)} className="px-3 py-2 rounded bg-white/5" placeholder="Search clients..." />
-          <button onClick={onAddClient} className="px-4 py-2 rounded bg-cyan-500/80">New Client</button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map(c => (
-          <div key={c.id} className="p-4 rounded-xl bg-gray-900/30 border border-white/5">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center"><i className="fa fa-building"></i></div>
-              <div>
-                <div className="font-semibold">{c.name}</div>
-                <div className="text-xs text-gray-400">{c.contact}</div>
-              </div>
-            </div>
-            <div className="mt-3 text-sm text-gray-300">
-              <div>Email: {c.email}</div>
-              <div>Phone: {c.phone}</div>
-              <div className="mt-2 font-semibold">Balance: ₱{c.balance}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const InvoicesView = ({ invoices, clients, onCreateInvoice }) => {
-  const clientMap = useMemo(() => Object.fromEntries(clients.map(c => [c.id, c])), [clients]);
-
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Invoices</h1>
-        <button onClick={onCreateInvoice} className="px-4 py-2 rounded bg-cyan-500/80">Create Invoice</button>
-      </div>
-
-      <div className="bg-gray-900/30 rounded-xl p-4 border border-white/5 overflow-x-auto">
-        <table className="min-w-full text-left">
-          <thead>
-            <tr className="text-gray-400 text-sm">
-              <th className="py-2">#</th>
-              <th>Client</th>
-              <th>Amount</th>
-              <th>Due</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoices.map(i => (
-              <tr key={i.id} className="border-t border-white/5">
-                <td className="py-2">{i.id}</td>
-                <td>{clientMap[i.clientId]?.name ?? '—'}</td>
-                <td>₱{i.amount}</td>
-                <td>{i.due}</td>
-                <td>{i.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-};
-
-const ReportsView = ({ invoices }) => {
-  const total = invoices.reduce((s, i) => s + i.amount, 0);
-  const paid = invoices.filter(i => i.status === 'Paid').reduce((s, i) => s + i.amount, 0);
-
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Reports</h1>
-        <div className="text-sm text-gray-400">Summary</div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-xl bg-gray-900/30">Total Invoiced<br /><div className="font-semibold">₱{total}</div></div>
-        <div className="p-4 rounded-xl bg-gray-900/30">Total Paid<br /><div className="font-semibold">₱{paid}</div></div>
-        <div className="p-4 rounded-xl bg-gray-900/30">Outstanding<br /><div className="font-semibold">₱{total - paid}</div></div>
-      </div>
-
-      <div className="p-4 rounded-xl bg-gray-900/30">(Charts placeholder) — you can integrate recharts or chart.js here for beautiful visuals.</div>
-    </div>
-  );
-};
-
-export default function BusinessApp() {
-  const [route, setRoute] = useState("dashboard");
-  const [clients, setClients] = useState(sampleClients);
-  const [invoices, setInvoices] = useState(sampleInvoices);
-
-  const addClient = () => {
-    const id = Date.now();
-    const newClient = { id, name: `New Client ${id % 1000}`, contact: "New Contact", email: "new@client.com", phone: "", balance: 0 };
-    setClients(prev => [newClient, ...prev]);
-    setRoute('clients');
-  };
-
-  const createInvoice = () => {
-    if (clients.length === 0) return alert('Add a client first');
-    const id = Math.floor(Math.random() * 900) + 100;
-    const invoice = { id, clientId: clients[0].id, amount: 1000, due: new Date().toISOString().slice(0,10), status: 'Draft' };
-    setInvoices(prev => [invoice, ...prev]);
-    setRoute('invoices');
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 to-gray-900 text-white p-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6">
-        <Sidebar route={route} setRoute={setRoute} />
-
-        <main className="p-6 bg-gray-900/30 rounded-xl border border-white/5 min-h-[80vh]">
-          <motion.div key={route} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
-            {route === 'dashboard' && <DashboardView clients={clients} invoices={invoices} />}
-            {route === 'clients' && <ClientsView clients={clients} onAddClient={addClient} />}
-            {route === 'invoices' && <InvoicesView invoices={invoices} clients={clients} onCreateInvoice={createInvoice} />}
-            {route === 'reports' && <ReportsView invoices={invoices} />}
-            {route === 'settings' && (
-              <div>
-                <h1 className="text-2xl font-bold">Settings</h1>
-                <div className="mt-4 text-gray-400">App settings and integrations go here. Connect payments, email, and analytics.</div>
-              </div>
-            )}
-          </motion.div>
-        </main>
-      </div>
-
-      <footer className="max-w-7xl mx-auto text-center text-gray-500 mt-6">Built with ❤️ • Demo Business App • Replace mock data with your API</footer>
-    </div>
-  );
-}
+</html>
